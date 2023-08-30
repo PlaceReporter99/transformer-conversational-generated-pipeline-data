@@ -1,0 +1,22 @@
+name: generate data
+on:
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.5.3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - run: |
+          python3 -m pip install tensorflow transformers
+          echo "from transformers import pipeline" >> a.py
+          echo "pipeline('conversational')" >> a.py
+          python3 a.py
+          rm a.py
+      - uses: EndBug/add-and-commit@v9
+        with:
+          default_author: "github_actions"
+      
